@@ -18,6 +18,11 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "app/generated/**",
+      "**/*.generated.js",
+      "**/*.generated.ts",
+      "**/wasm*.js",
+      "**/runtime/**",
     ],
   },
 ];

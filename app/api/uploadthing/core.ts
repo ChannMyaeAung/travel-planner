@@ -18,15 +18,21 @@ export const ourFileRouter = {
     },
   })
     // Set permissions and file types for this FileRoute
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       // This code runs on your server before upload
-      const user = await auth();
+      const session = await auth();
 
       // If you throw, the user will not be able to upload
-      if (!user) throw new UploadThingError("Unauthorized");
+      if (!session || !session.user) throw new UploadThingError("Unauthorized");
+
+      // With Prisma adapter, user.id should be available
+      const userId =
+        (session.user as { id: string }).id ||
+        session.user.email ||
+        "anonymous";
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
-      return { userId: user.id };
+      return { userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       // This code RUNS ON YOUR SERVER after upload
