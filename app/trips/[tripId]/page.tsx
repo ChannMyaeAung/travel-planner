@@ -20,7 +20,6 @@ export default async function TripDetail({
     where: { id: tripId, userId: session.user?.id },
     include: { locations: true },
   });
-  console.log(trip);
   if (!trip) {
     return <div>Trip not found.</div>;
   }

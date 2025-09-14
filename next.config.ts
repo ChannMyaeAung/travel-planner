@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "xe6kyelrve.ufs.sh",
       },
+      {
+        hostname: "avatars.githubusercontent.com",
+      },
     ],
   },
 };
