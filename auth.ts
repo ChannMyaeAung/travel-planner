@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  trustHost: true, // <- helps when multiple domains/proxies are involved
   providers: [
     GitHub({
       clientId: process.env.AUTH_GITHUB_ID!,
@@ -13,15 +14,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
   callbacks: {
     session: async ({ session, token }) => {
-      if (session?.user && token?.sub) {
-        session.user.id = token.sub;
-      }
+      if (session?.user && token?.sub) session.user.id = token.sub;
       return session;
     },
     jwt: async ({ user, token }) => {
-      if (user) {
-        token.uid = user.id;
-      }
+      if (user) token.uid = user.id as string;
       return token;
     },
   },
