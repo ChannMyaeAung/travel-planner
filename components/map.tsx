@@ -14,7 +14,7 @@ export default function Map({ itineraries }: MapProps) {
 
   if (loadError) {
     return (
-      <div className="w-full h-full bg-gradient-to-br from-red-50 to-orange-50 rounded-xl border-2 border-red-200 flex items-center justify-center">
+      <div className="w-full h-full bg-linear-to-br from-red-50 to-orange-50 rounded-xl border-2 border-red-200 flex items-center justify-center">
         <div className="text-center p-6">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-red-100 rounded-full mb-4">
             <AlertCircle className="w-6 h-6 text-red-600" />
@@ -32,7 +32,7 @@ export default function Map({ itineraries }: MapProps) {
 
   if (!isLoaded) {
     return (
-      <div className="w-full h-full bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-blue-200 flex items-center justify-center">
+      <div className="w-full h-full bg-linear-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-blue-200 flex items-center justify-center">
         <div className="text-center p-6">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-4">
             <Loader2 className="w-6 h-6 text-blue-600 animate-spin" />
@@ -50,7 +50,7 @@ export default function Map({ itineraries }: MapProps) {
 
   if (itineraries.length === 0) {
     return (
-      <div className="w-full h-full bg-gradient-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-gray-200 flex items-center justify-center">
+      <div className="w-full h-full bg-linear-to-br from-gray-50 to-blue-50 rounded-xl border-2 border-gray-200 flex items-center justify-center">
         <div className="text-center p-6">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-gray-100 rounded-full mb-4">
             <MapPin className="w-6 h-6 text-gray-600" />

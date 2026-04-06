@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { auth } from "@/auth";
+import { Suspense } from "react";
+import NavbarServer from "@/components/NavbarServer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,18 +54,28 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default async function RootLayout({
+// Navbar skeleton shown while the async session lookup streams in.
+// Matches the h-16 height of the real Navbar to prevent layout shift.
+function NavbarSkeleton() {
+  return <div className="h-16 sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50" />;
+}
+
+// RootLayout is now a plain (non-async) server component — no dynamic data
+// access here means the static HTML shell is sent to the browser immediately.
+// The session-dependent Navbar streams in via the Suspense boundary.
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await auth();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar session={session} />
+        <Suspense fallback={<NavbarSkeleton />}>
+          <NavbarServer />
+        </Suspense>
         {children}
       </body>
     </html>

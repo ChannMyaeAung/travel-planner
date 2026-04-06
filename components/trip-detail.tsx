@@ -26,6 +26,12 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
     (trip.endDate.getTime() - trip.startDate.getTime()) / (1000 * 60 * 60 * 24)
   );
 
+  const uniqueCountries = new Set(
+    trip.locations
+      .map((l) => l.country)
+      .filter((c): c is string => Boolean(c) && c !== "Unknown")
+  );
+
   const today = new Date();
   const isUpcoming = new Date(trip.startDate) > today;
   const isActive =
@@ -33,7 +39,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
   const isCompleted = new Date(trip.endDate) < today;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
       {/* Back Navigation */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
@@ -61,7 +67,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                 fill
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white">
                 <h1 className="text-3xl md:text-5xl font-bold mb-2">
                   {trip.title}
@@ -80,7 +86,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
               </div>
             </div>
           ) : (
-            <Card className="bg-gradient-to-br from-blue-600 to-purple-600 text-white border-0">
+            <Card className="bg-linear-to-br from-blue-600 to-purple-600 text-white border-0">
               <CardContent className="p-8 md:p-12">
                 <h1 className="text-3xl md:text-5xl font-bold mb-4">
                   {trip.title}
@@ -149,15 +155,19 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
           <Card className="bg-white border-0 shadow-lg">
             <CardContent className="p-6 text-center">
               <Globe className="h-8 w-8 mx-auto mb-2 text-purple-600" />
-              <div className="text-2xl font-bold text-gray-900">1</div>
-              <div className="text-sm text-gray-600">Country</div>
+              <div className="text-2xl font-bold text-gray-900">
+                {uniqueCountries.size}
+              </div>
+              <div className="text-sm text-gray-600">
+                {uniqueCountries.size === 1 ? "Country" : "Countries"}
+              </div>
             </CardContent>
           </Card>
 
           <Card className="bg-white border-0 shadow-lg">
             <CardContent className="p-6 text-center self-center">
               <Link href={`/trips/${trip.id}/itinerary/new`}>
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Location
                 </Button>
@@ -288,7 +298,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                     Your Itinerary
                   </h2>
                   <Link href={`/trips/${trip.id}/itinerary/new`}>
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                    <Button className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
                       <Plus className="mr-2 h-4 w-4" />
                       Add Location
                     </Button>
@@ -309,7 +319,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                       <Link href={`/trips/${trip.id}/itinerary/new`}>
                         <Button
                           size="lg"
-                          className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                          className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                         >
                           <Plus className="mr-2 h-5 w-5" />
                           Add Your First Location
@@ -360,7 +370,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                         <Link href={`/trips/${trip.id}/itinerary/new`}>
                           <Button
                             size="lg"
-                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                            className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                           >
                             <Plus className="mr-2 h-5 w-5" />
                             Add Locations

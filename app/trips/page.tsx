@@ -1,13 +1,14 @@
-import { auth } from "@/auth";
+import { getAuth } from "@/lib/auth-cached";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { Plus, Calendar, MapPin, Clock, Globe, Plane } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+
+export const dynamic = "force-dynamic";
 
 export default async function TripsPage() {
-  const session = await auth();
+  const session = await getAuth();
 
   const trips = await prisma.trip.findMany({
     where: { userId: session?.user?.id },
@@ -27,7 +28,7 @@ export default async function TripsPage() {
 
   if (!session) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-purple-50 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="text-center py-8">
             <Globe className="h-16 w-16 mx-auto mb-4 text-blue-500" />
@@ -48,7 +49,7 @@ export default async function TripsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
       <div className="container mx-auto px-4 py-8 space-y-8">
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -63,7 +64,7 @@ export default async function TripsPage() {
           <Link href={"/trips/new"}>
             <Button
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
+              className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg"
             >
               <Plus className="mr-2 h-5 w-5" />
               New Trip
@@ -73,7 +74,7 @@ export default async function TripsPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-gradient-to-br from-blue-500 to-blue-600 text-white border-0">
+          <Card className="bg-linear-to-br from-blue-500 to-blue-600 text-white border-0">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -87,7 +88,7 @@ export default async function TripsPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-500 to-green-600 text-white border-0">
+          <Card className="bg-linear-to-br from-green-500 to-green-600 text-white border-0">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -99,7 +100,7 @@ export default async function TripsPage() {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500 to-purple-600 text-white border-0">
+          <Card className="bg-linear-to-br from-purple-500 to-purple-600 text-white border-0">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -121,7 +122,7 @@ export default async function TripsPage() {
         <Card className="bg-white border-0 shadow-lg">
           <CardContent className="p-8">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                 <Globe className="h-6 w-6 text-white" />
               </div>
               <div>
@@ -152,7 +153,7 @@ export default async function TripsPage() {
         {trips.length === 0 ? (
           <Card className="bg-white border-0 shadow-lg">
             <CardContent className="flex flex-col items-center justify-center py-16">
-              <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mb-6">
+              <div className="w-24 h-24 bg-linear-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mb-6">
                 <Plane className="h-12 w-12 text-blue-600" />
               </div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-2">
@@ -165,7 +166,7 @@ export default async function TripsPage() {
               <Link href={"/trips/new"}>
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                 >
                   <Plus className="mr-2 h-5 w-5" />
                   Create Your First Trip
@@ -188,7 +189,7 @@ export default async function TripsPage() {
                   {upcomingTrips.map((trip) => (
                     <Link href={`/trips/${trip.id}`} key={trip.id}>
                       <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-0 shadow-lg overflow-hidden">
-                        <div className="h-2 bg-gradient-to-r from-green-500 to-blue-500"></div>
+                        <div className="h-2 bg-linear-to-r from-green-500 to-blue-500"></div>
                         <CardHeader className="pb-4">
                           <CardTitle className="line-clamp-1 group-hover:text-blue-600 transition-colors">
                             {trip.title}
@@ -237,10 +238,10 @@ export default async function TripsPage() {
                         <div
                           className={`h-2 ${
                             isUpcoming
-                              ? "bg-gradient-to-r from-green-500 to-blue-500"
+                              ? "bg-linear-to-r from-green-500 to-blue-500"
                               : isCompleted
-                              ? "bg-gradient-to-r from-gray-400 to-gray-500"
-                              : "bg-gradient-to-r from-yellow-500 to-orange-500"
+                              ? "bg-linear-to-r from-gray-400 to-gray-500"
+                              : "bg-linear-to-r from-yellow-500 to-orange-500"
                           }`}
                         ></div>
                         <CardHeader className="pb-4">

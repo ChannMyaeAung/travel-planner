@@ -22,7 +22,7 @@ export default function NewTrip() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-6">
@@ -52,7 +52,7 @@ export default function NewTrip() {
           <Card className="bg-white border-0 shadow-xl">
             <CardHeader className="pb-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-linear-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
                   <Plane className="h-5 w-5 text-white" />
                 </div>
                 <div>
@@ -217,7 +217,7 @@ export default function NewTrip() {
                   <Button
                     type="submit"
                     disabled={isPending}
-                    className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
+                    className="w-full py-3 bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-200"
                     size="lg"
                   >
                     {isPending ? (
@@ -238,7 +238,7 @@ export default function NewTrip() {
           </Card>
 
           {/* Tips Card */}
-          <Card className="mt-8 bg-gradient-to-br from-blue-50 to-purple-50 border-0">
+          <Card className="mt-8 bg-linear-to-br from-blue-50 to-purple-50 border-0">
             <CardContent className="p-6">
               <h3 className="font-semibold text-gray-900 mb-3">
                 💡 Planning Tips

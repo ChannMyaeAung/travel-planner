@@ -1,7 +1,8 @@
-import { auth } from "@/auth";
+import { getAuth } from "@/lib/auth-cached";
 import TripDetailClient from "@/components/trip-detail";
 import { prisma } from "@/lib/prisma";
-import React from "react";
+
+export const dynamic = "force-dynamic";
 
 export default async function TripDetail({
   params,
@@ -10,7 +11,7 @@ export default async function TripDetail({
 }) {
   const { tripId } = await params;
 
-  const session = await auth();
+  const session = await getAuth();
 
   if (!session) {
     return <div>Please sign in.</div>;

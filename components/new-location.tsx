@@ -9,9 +9,9 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+    <div className="min-h-[calc(100vh-8rem)] bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-purple-400/10 to-pink-400/10" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-400/10 via-purple-400/10 to-pink-400/10" />
       <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
 
@@ -19,10 +19,10 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
         <div className="w-full max-w-md mx-auto">
           <div className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-xl">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4">
                 <MapPin className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-2">
+              <h1 className="text-3xl font-bold bg-linear-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-2">
                 Add New Location
               </h1>
               <p className="text-gray-600">
@@ -59,7 +59,7 @@ export default function NewLocationClient({ tripId }: { tripId: string }) {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
+                className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {isPending ? (
                   <div className="flex items-center justify-center gap-2">

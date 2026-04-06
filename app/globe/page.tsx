@@ -110,7 +110,7 @@ export default function GlobePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-50 flex items-center justify-center">
+      <div className="min-h-screen bg-linear-to-br from-red-50 to-pink-50 flex items-center justify-center">
         <Card className="w-full max-w-md mx-4">
           <CardContent className="text-center py-8">
             <GlobeIcon className="h-16 w-16 mx-auto mb-4 text-red-500" />
@@ -126,7 +126,7 @@ export default function GlobePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-linear-to-br from-slate-900 via-blue-900 to-indigo-900">
       {/* Header */}
       <div className="bg-white/10 backdrop-blur-lg border-b border-white/20">
         <div className="container mx-auto px-4 py-6">
@@ -366,7 +366,7 @@ export default function GlobePage() {
                     <Link href="/trips/new">
                       <Button
                         size="sm"
-                        className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                        className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
                       >
                         Plan Next Trip
                       </Button>
