@@ -1,10 +1,41 @@
 "use client";
 import { Location } from "@/app/generated/prisma";
-import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useLoadScript,
+  OverlayViewF,
+  OverlayView,
+} from "@react-google-maps/api";
 import { MapPin, Loader2, AlertCircle } from "lucide-react";
 
 interface MapProps {
   itineraries: Location[];
+}
+
+// Custom pin rendered as a React element via OverlayViewF — avoids the
+// deprecated google.maps.Marker without requiring a Google Cloud Map ID.
+function CustomPin({ title }: { title: string }) {
+  return (
+    <div
+      title={title}
+      style={{ transform: "translate(-50%, -100%)", pointerEvents: "auto" }}
+      className="cursor-pointer group"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="36"
+        height="36"
+        className="drop-shadow-md group-hover:scale-110 transition-transform duration-150"
+      >
+        <path
+          d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+          fill="#EF4444"
+        />
+        <circle cx="12" cy="9" r="2.5" fill="white" />
+      </svg>
+    </div>
+  );
 }
 
 export default function Map({ itineraries }: MapProps) {
@@ -66,10 +97,7 @@ export default function Map({ itineraries }: MapProps) {
     );
   }
 
-  const center =
-    itineraries.length > 0
-      ? { lat: itineraries[0].lat, lng: itineraries[0].lng }
-      : { lat: 0, lng: 0 };
+  const center = { lat: itineraries[0].lat, lng: itineraries[0].lng };
 
   return (
     <div className="w-full h-full rounded-xl overflow-hidden border-2 border-gray-200 shadow-xl">
@@ -88,11 +116,15 @@ export default function Map({ itineraries }: MapProps) {
         }}
       >
         {itineraries.map((location) => (
-          <Marker
+          <OverlayViewF
             key={location.id}
             position={{ lat: location.lat, lng: location.lng }}
-            title={`${location.locationTitle} (Day ${location.order + 1})`}
-          />
+            mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
+          >
+            <CustomPin
+              title={`${location.locationTitle} (Stop ${location.order + 1})`}
+            />
+          </OverlayViewF>
         ))}
       </GoogleMap>
     </div>

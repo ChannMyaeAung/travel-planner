@@ -2,22 +2,22 @@
 import { signIn, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 
-export const login = async () => {
+function isNextRedirect(error: unknown): boolean {
+  return (
+    !!error &&
+    typeof error === "object" &&
+    "digest" in error &&
+    typeof (error as { digest: string }).digest === "string" &&
+    (error as { digest: string }).digest.includes("NEXT_REDIRECT")
+  );
+}
+
+export const loginWith = async (provider: "github" | "google") => {
   try {
-    await signIn("github", { redirectTo: "/" });
-  } catch (error: unknown) {
-    // Handle Next.js redirect (this is expected behavior)
-    if (
-      error &&
-      typeof error === "object" &&
-      "digest" in error &&
-      typeof error.digest === "string" &&
-      error.digest.includes("NEXT_REDIRECT")
-    ) {
-      throw error; // Re-throw redirect errors
-    }
-    // Handle actual sign in errors
-    console.error("Actual sign in error:", error);
+    await signIn(provider, { redirectTo: "/" });
+  } catch (error) {
+    if (isNextRedirect(error)) throw error;
+    console.error(`Sign-in error (${provider}):`, error);
     throw error;
   }
 };
@@ -25,18 +25,9 @@ export const login = async () => {
 export const logout = async () => {
   try {
     await signOut({ redirectTo: "/" });
-  } catch (error: unknown) {
-    // Handle Next.js redirect (this is expected behavior)
-    if (
-      error &&
-      typeof error === "object" &&
-      "digest" in error &&
-      typeof error.digest === "string" &&
-      error.digest.includes("NEXT_REDIRECT")
-    ) {
-      throw error; // Re-throw redirect errors
-    }
-    console.error("Actual sign out error:", error);
+  } catch (error) {
+    if (isNextRedirect(error)) throw error;
+    console.error("Sign-out error:", error);
     redirect("/");
   }
 };

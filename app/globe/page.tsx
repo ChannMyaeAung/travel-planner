@@ -63,7 +63,9 @@ export default function GlobePage() {
         setLocations(data);
 
         const countries = new Set<string>(
-          data.map((loc: TransformedLocation) => loc.country)
+          data
+            .map((loc: TransformedLocation) => loc.country)
+            .filter((c: string) => c && c !== "Unknown")
         );
         setVisitedCountries(countries);
       } catch (err) {
@@ -84,19 +86,31 @@ export default function GlobePage() {
     }
   }, [isRotating]);
 
-  // Enable auto-rotation when globe loads
+  // Enable auto-rotation when globe loads, pause when tab is hidden
   useEffect(() => {
     if (globeRef.current && !isLoading) {
       const timer = setTimeout(() => {
         if (globeRef.current) {
-          globeRef.current.controls().autoRotate = true;
-          globeRef.current.controls().autoRotateSpeed = 0.8;
+          globeRef.current.controls().autoRotate = isRotating;
+          globeRef.current.controls().autoRotateSpeed = 0.5;
         }
-      }, 1000); // Small delay to ensure globe is fully loaded
+      }, 1000);
 
       return () => clearTimeout(timer);
     }
-  }, [isLoading]);
+  }, [isLoading, isRotating]);
+
+  // Pause the render loop entirely when the tab loses focus
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (!globeRef.current) return;
+      const paused = document.hidden;
+      globeRef.current.pauseAnimation(paused);
+      if (!paused) globeRef.current.resumeAnimation?.();
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
 
   const toggleRotation = () => {
     setIsRotating(!isRotating);
@@ -254,7 +268,7 @@ export default function GlobePage() {
                           key={key}
                           className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/10 transition-colors border border-white/10"
                         >
-                          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
+                          <div className="w-2 h-2 bg-red-400 rounded-full" />
                           <span className="font-medium text-white">
                             {country}
                           </span>
@@ -301,31 +315,19 @@ export default function GlobePage() {
                       <Globe
                         ref={globeRef}
                         globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
-                        bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
                         backgroundColor="rgba(0,0,0,0)"
                         pointColor={() => "#EF4444"}
                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                        pointLabel={(d: any) => `
-                          <div style="
-                            background: rgba(0,0,0,0.8); 
-                            color: white; 
-                            padding: 8px 12px; 
-                            border-radius: 6px; 
-                            font-size: 12px;
-                            max-width: 200px;
-                          ">
-                            <strong>${d.name}</strong><br/>
-                            📍 ${d.country}
-                          </div>
-                        `}
+                        pointLabel={(d: any) => `<div style="background:rgba(0,0,0,0.8);color:white;padding:6px 10px;border-radius:6px;font-size:12px"><strong>${d.name}</strong><br/>${d.country}</div>`}
                         pointsData={locations}
-                        pointRadius={0.8}
-                        pointAltitude={0.15}
+                        pointRadius={0.6}
+                        pointAltitude={0.1}
                         pointsMerge={true}
+                        rendererConfig={{ antialias: false, alpha: true }}
                         width={undefined}
                         height={600}
                         atmosphereColor="#3B82F6"
-                        atmosphereAltitude={0.25}
+                        atmosphereAltitude={0.2}
                       />
                     </div>
                   )}

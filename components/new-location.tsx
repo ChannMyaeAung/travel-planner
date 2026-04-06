@@ -4,88 +4,74 @@ import { useTransition } from "react";
 import { Button } from "./ui/button";
 import { addLocation } from "@/lib/actions/add-location";
 import { MapPin, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function NewLocationClient({ tripId }: { tripId: string }) {
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="min-h-[calc(100vh-8rem)] bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 bg-linear-to-br from-blue-400/10 via-purple-400/10 to-pink-400/10" />
-      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-400/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+    <div className="min-h-[calc(100vh-8rem)] bg-slate-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-md animate-fade-in-up">
+        {/* Icon + heading */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-50 rounded-xl mb-4">
+            <MapPin className="w-6 h-6 text-blue-600" />
+          </div>
+          <h1 className="text-xl font-bold text-slate-900 mb-1">Add New Location</h1>
+          <p className="text-sm text-slate-500">
+            Search for a place and add it to your itinerary
+          </p>
+        </div>
 
-      <div className="relative z-10 flex items-center justify-center min-h-[calc(100vh-8rem)] p-6">
-        <div className="w-full max-w-md mx-auto">
-          <div className="bg-white/80 backdrop-blur-xl p-8 rounded-2xl border border-white/20 shadow-xl">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-linear-to-br from-blue-500 to-purple-600 rounded-full mb-4">
-                <MapPin className="w-8 h-8 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold bg-linear-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-2">
-                Add New Location
-              </h1>
-              <p className="text-gray-600">
-                Discover and add exciting destinations to your itinerary
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-5">
+          <form
+            className="space-y-4"
+            action={(formData: FormData) => {
+              startTransition(() => {
+                addLocation(formData, tripId);
+              });
+            }}
+          >
+            <div className="space-y-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                <MapPin className="w-4 h-4 text-slate-400" />
+                Destination Address
+              </label>
+              <input
+                name="address"
+                type="text"
+                required
+                placeholder='e.g. "Eiffel Tower, Paris"'
+                className={cn(
+                  "w-full border border-slate-200 px-4 py-2.5 rounded-lg text-slate-900",
+                  "placeholder:text-slate-400 text-sm",
+                  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+                  "transition-all duration-150"
+                )}
+              />
+              <p className="text-xs text-slate-400">
+                Be specific for better geocoding results.
               </p>
             </div>
 
-            <form
-              className="space-y-6"
-              action={(formData: FormData) => {
-                startTransition(() => {
-                  addLocation(formData, tripId);
-                });
-              }}
+            <Button
+              type="submit"
+              disabled={isPending}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-medium shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-60"
             >
-              <div className="space-y-2">
-                <label className="flex items-center gap-2 text-sm font-medium text-gray-700">
-                  <MapPin className="w-4 h-4 text-blue-500" />
-                  Destination Address
-                </label>
-                <input
-                  name="address"
-                  type="text"
-                  required
-                  placeholder="Enter location address..."
-                  className="w-full border-2 border-gray-200 px-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/20 transition-all duration-200 bg-white/70 backdrop-blur-sm"
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Be specific for better results (e.g., &ldquo;Eiffel Tower,
-                  Paris&rdquo;)
-                </p>
-              </div>
-
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-3 rounded-xl font-medium transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-70 disabled:cursor-not-allowed disabled:transform-none"
-              >
-                {isPending ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Adding Location...
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    Add to Itinerary
-                  </div>
-                )}
-              </Button>
-            </form>
-
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="text-center text-sm text-gray-600">
-                <p className="mb-1">
-                  💡 <strong>Pro tip:</strong>
-                </p>
-                <p>
-                  Include landmarks or specific addresses for accurate mapping
-                </p>
-              </div>
-            </div>
-          </div>
+              {isPending ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Adding…
+                </span>
+              ) : (
+                <span className="flex items-center justify-center gap-2">
+                  <MapPin className="w-4 h-4" />
+                  Add to Itinerary
+                </span>
+              )}
+            </Button>
+          </form>
         </div>
       </div>
     </div>

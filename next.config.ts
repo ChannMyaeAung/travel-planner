@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Reduce the work Turbopack does for these large barrel-file packages at dev time.
+  experimental: {
+    optimizePackageImports: ["lucide-react", "@dnd-kit/core", "@dnd-kit/sortable"],
+  },
+
   images: {
     remotePatterns: [
       {
