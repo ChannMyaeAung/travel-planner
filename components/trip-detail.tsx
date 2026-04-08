@@ -2,7 +2,7 @@
 
 import { Location, Trip } from "@/app/generated/prisma";
 import Image from "next/image";
-import { Calendar, MapPin, Plus, ArrowLeft, Clock, Globe } from "lucide-react";
+import { Calendar, MapPin, Plus, ArrowLeft, Clock, Globe, Pencil } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
@@ -50,7 +50,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
     <div className="min-h-screen bg-slate-50">
       {/* Top bar */}
       <div className="bg-white border-b border-slate-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <Link href="/trips">
             <Button
               variant="ghost"
@@ -59,6 +59,16 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
             >
               <ArrowLeft className="h-4 w-4 mr-1.5" />
               Back to Trips
+            </Button>
+          </Link>
+          <Link href={`/trips/${trip.id}/edit`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+            >
+              <Pencil className="h-3.5 w-3.5 mr-1.5" />
+              Edit Trip
             </Button>
           </Link>
         </div>
@@ -295,11 +305,11 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
 
               <div className="rounded-xl border border-slate-200 overflow-hidden">
                 {trip.locations.length > 0 ? (
-                  <div className="h-[480px]">
+                  <div className="h-120">
                     <Map itineraries={trip.locations} />
                   </div>
                 ) : (
-                  <div className="h-[480px] bg-slate-50 flex flex-col items-center justify-center text-center p-8">
+                  <div className="h-120 bg-slate-50 flex flex-col items-center justify-center text-center p-8">
                     <Globe className="h-12 w-12 text-slate-300 mb-4" />
                     <h3 className="text-sm font-semibold text-slate-900 mb-1">No locations to display</h3>
                     <p className="text-sm text-slate-500 mb-5 max-w-sm">

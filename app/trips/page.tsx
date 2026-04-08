@@ -2,6 +2,7 @@ import { getAuth } from "@/lib/auth-cached";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
 import { Plus, Calendar, MapPin, Globe, Plane, Clock, ArrowRight } from "lucide-react";
+import TripCardActions from "@/components/TripCardActions";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -208,7 +209,10 @@ function TripGrid({
                       {trip.locations.length}
                     </span>
                   </div>
-                  <ArrowRight className="h-4 w-4 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all duration-200" />
+                  <div className="flex items-center gap-1">
+                    <TripCardActions tripId={trip.id} />
+                    <ArrowRight className="h-4 w-4 text-slate-300 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all duration-200 ml-1" />
+                  </div>
                 </div>
               </div>
             </div>
