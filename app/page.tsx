@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
 
 // ─── Feature data ─────────────────────────────────────────────────────────────
 const FEATURES = [
@@ -82,7 +83,7 @@ export default function Home() {
           <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-100/50 rounded-full blur-3xl" />
         </div>
 
-        <div className="max-w-4xl mx-auto text-center space-y-8">
+        <div className="max-w-4xl mx-auto text-center space-y-8 mb-20">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-100 rounded-full text-xs font-medium text-blue-700 animate-fade-in">
             <span className="w-1.5 h-1.5 bg-blue-500 rounded-full" />
             Your personal travel planner
@@ -105,13 +106,15 @@ export default function Home() {
         </div>
 
         {/* Country strip — streams in with real data for logged-in users */}
-        <div className="mt-16 max-w-5xl mx-auto animate-fade-in-up animation-delay-400">
-          <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-xl">
-            <Suspense fallback={<CountryStripSkeleton />}>
-              <CountryStrip />
-            </Suspense>
+        <BackgroundGradient className="">
+          <div className="rounded-[22px] max-w-full p-4 sm:p-10 bg-white dark:bg-zinc-900">
+            <div className="relative rounded-2xl overflow-hidden">
+              <Suspense fallback={<CountryStripSkeleton />}>
+                <CountryStrip />
+              </Suspense>
+            </div>
           </div>
-        </div>
+        </BackgroundGradient>
       </section>
 
       {/* ── Features ── */}
@@ -122,7 +125,7 @@ export default function Home() {
               Everything you need to plan better trips
             </h2>
             <p className="text-slate-500 max-w-xl mx-auto">
-              From first idea to fond memory — every tool in one place.
+              From first idea to fond memory - every tool in one place.
             </p>
           </div>
 

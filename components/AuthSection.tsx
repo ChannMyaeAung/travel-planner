@@ -42,7 +42,9 @@ export async function AuthSection() {
       .flatMap((t) => t.locations.map((l) => l.country))
       .filter((c): c is string => Boolean(c) && c !== "Unknown"),
   );
-  const upcoming = trips.filter((t) => new Date(t.startDate) > new Date()).length;
+  const upcoming = trips.filter(
+    (t) => new Date(t.startDate) > new Date(),
+  ).length;
 
   return (
     <div className="space-y-8 animate-fade-in-up animation-delay-300">
@@ -70,16 +72,42 @@ export async function AuthSection() {
 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto">
         {[
-          { icon: Calendar, value: trips.length, label: "Trips", color: "text-blue-600", bg: "bg-blue-50" },
-          { icon: MapPin, value: totalLocations, label: "Places", color: "text-emerald-600", bg: "bg-emerald-50" },
-          { icon: Globe, value: countries.size, label: "Countries", color: "text-purple-600", bg: "bg-purple-50" },
-          { icon: TrendingUp, value: upcoming, label: "Upcoming", color: "text-amber-600", bg: "bg-amber-50" },
+          {
+            icon: Calendar,
+            value: trips.length,
+            label: "Trips",
+            color: "text-blue-600",
+            bg: "bg-blue-50",
+          },
+          {
+            icon: MapPin,
+            value: totalLocations,
+            label: "Places",
+            color: "text-emerald-600",
+            bg: "bg-emerald-50",
+          },
+          {
+            icon: Globe,
+            value: countries.size,
+            label: "Countries",
+            color: "text-purple-600",
+            bg: "bg-purple-50",
+          },
+          {
+            icon: TrendingUp,
+            value: upcoming,
+            label: "Upcoming",
+            color: "text-amber-600",
+            bg: "bg-amber-50",
+          },
         ].map(({ icon: Icon, value, label, color, bg }) => (
           <div
             key={label}
             className="bg-white rounded-xl border border-slate-200 p-4 text-center shadow-sm hover:shadow-md transition-shadow duration-200"
           >
-            <div className={`inline-flex items-center justify-center w-8 h-8 ${bg} rounded-lg mb-2`}>
+            <div
+              className={`inline-flex items-center justify-center w-8 h-8 ${bg} rounded-lg mb-2`}
+            >
               <Icon className={`h-4 w-4 ${color}`} />
             </div>
             <div className="text-2xl font-bold text-slate-900">{value}</div>
@@ -131,7 +159,7 @@ export async function CountryStrip() {
   const isSample = countries.length === 0;
 
   return (
-    <div className="bg-slate-50 px-6 py-8 flex items-center justify-center gap-6 flex-wrap">
+    <div className=" flex items-center justify-center gap-6 flex-wrap">
       {display.map((country, i) => (
         <div
           key={country}
@@ -144,7 +172,9 @@ export async function CountryStrip() {
       <div className="flex items-center gap-1.5 text-xs text-slate-400">
         <Globe className="h-3.5 w-3.5" />
         <span>
-          {isSample ? "and more waiting to be explored" : "countries visited so far"}
+          {isSample
+            ? "and more waiting to be explored"
+            : "countries visited so far"}
         </span>
       </div>
     </div>
@@ -155,7 +185,10 @@ export function CountryStripSkeleton() {
   return (
     <div className="bg-slate-50 px-6 py-8 flex items-center justify-center gap-6 flex-wrap">
       {[80, 64, 72, 56].map((w) => (
-        <div key={w} className={`h-4 w-${w} bg-slate-200 rounded animate-pulse`} />
+        <div
+          key={w}
+          className={`h-4 w-${w} bg-slate-200 rounded animate-pulse`}
+        />
       ))}
     </div>
   );

@@ -85,6 +85,7 @@ export default function TripDetailClient({ trip }: TripDetailClientProps) {
                   alt={trip.title}
                   fill
                   priority
+                  sizes="(max-width: 768px) 100vw, 1024px"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/20 to-transparent" />
