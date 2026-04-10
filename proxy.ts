@@ -20,5 +20,7 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  // Exclude both OAuth callbacks from middleware — route.ts strips the RFC 9207
+  // iss param from both before auth.js sees it (auth.js v5 beta.29 bug).
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth/callback/github|api/auth/callback/google|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };

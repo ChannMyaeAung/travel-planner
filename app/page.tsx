@@ -105,9 +105,9 @@ export default function Home() {
           </Suspense>
         </div>
 
-        {/* Country strip — streams in with real data for logged-in users */}
-        <BackgroundGradient className="">
-          <div className="rounded-[22px] max-w-full p-4 sm:p-10 bg-white dark:bg-zinc-900">
+        {/* Country strip - streams in with real data for logged-in users */}
+        <BackgroundGradient>
+          <div className="rounded-[22px] max-w-3xl p-4 sm:p-10 bg-white dark:bg-zinc-900">
             <div className="relative rounded-2xl overflow-hidden">
               <Suspense fallback={<CountryStripSkeleton />}>
                 <CountryStrip />
